@@ -1,249 +1,55 @@
-## EXNO-3-DS
-
+# EXNO:4-DS
 # AIM:
-To read the given data and perform Feature Encoding and Transformation process and save the data to a file.
+To read the given data and perform Feature Scaling and Feature Selection process and save the
+data to a file.
 
 # ALGORITHM:
 STEP 1:Read the given Data.
 STEP 2:Clean the Data Set using Data Cleaning Process.
-STEP 3:Apply Feature Encoding for the feature in the data set.
-STEP 4:Apply Feature Transformation for the feature in the data set.
+STEP 3:Apply Feature Scaling for the feature in the data set.
+STEP 4:Apply Feature Selection for the feature in the data set.
 STEP 5:Save the data to the file.
 
-# FEATURE ENCODING:
-1. Ordinal Encoding
-An ordinal encoding involves mapping each unique label to an integer value. This type of encoding is really only appropriate if there is a known relationship between the categories. This relationship does exist for some of the variables in our dataset, and ideally, this should be harnessed when preparing the data.
-2. Label Encoding
-Label encoding is a simple and straight forward approach. This converts each value in a categorical column into a numerical value. Each value in a categorical column is called Label.
-3. Binary Encoding
-Binary encoding converts a category into binary digits. Each binary digit creates one feature column. If there are n unique categories, then binary encoding results in the only log(base 2)ⁿ features.
-4. One Hot Encoding
-We use this categorical data encoding technique when the features are nominal(do not have any order). In one hot encoding, for each level of a categorical feature, we create a new variable. Each category is mapped with a binary variable containing either 0 or 1. Here, 0 represents the absence, and 1 represents the presence of that category.
+# FEATURE SCALING:
+1. Standard Scaler: It is also called Z-score normalization. It calculates the z-score of each value and replaces the value with the calculated Z-score. The features are then rescaled with x̄ =0 and σ=1
+2. MinMaxScaler: It is also referred to as Normalization. The features are scaled between 0 and 1. Here, the mean value remains same as in Standardization, that is,0.
+3. Maximum absolute scaling: Maximum absolute scaling scales the data to its maximum value; that is,it divides every observation by the maximum value of the variable.The result of the preceding transformation is a distribution in which the values vary approximately within the range of -1 to 1.
+4. RobustScaler: RobustScaler transforms the feature vector by subtracting the median and then dividing by the interquartile range (75% value — 25% value).
 
-# Methods Used for Data Transformation:
-  # 1. FUNCTION TRANSFORMATION
-• Log Transformation
-• Reciprocal Transformation
-• Square Root Transformation
-• Square Transformation
-  # 2. POWER TRANSFORMATION
-• Boxcox method
-• Yeojohnson method
+# FEATURE SELECTION:
+Feature selection is to find the best set of features that allows one to build useful models. Selecting the best features helps the model to perform well.
+The feature selection techniques used are:
+1.Filter Method
+2.Wrapper Method
+3.Embedded Method
 
 # CODING AND OUTPUT:
-```
-Developed by : Prasannalakshmi G
-Reg No : 212222240075
-```
-
-```python
-import pandas as pd
-df=pd.read_csv("/content/Encoding Data.csv")
-df
-```
-![image](https://github.com/Prasannalakshmiganesan/EXNO-3-DS/assets/118610231/9a445ed3-f79e-46ed-8493-a0138abde135)
-
-```python
-from sklearn.preprocessing import LabelEncoder,OrdinalEncoder
-pm=['Hot','Warm','Cold']
-e1=OrdinalEncoder(categories=[pm])
-e1.fit_transform(df[["ord_2"]])
-```
-![image](https://github.com/Prasannalakshmiganesan/EXNO-3-DS/assets/118610231/c5ae2314-6f2b-4d93-92b3-f44d1b74015a)
-
-
-
-```python
-df['bo2']=e1.fit_transform(df[["ord_2"]])
-df
-```
-![image](https://github.com/Prasannalakshmiganesan/EXNO-3-DS/assets/118610231/4ae17d2a-aa22-4340-9faf-8567549250f6)
-
-
-
-```python
-le=LabelEncoder()
-dfc=df.copy()
-dfc['ord_2']=le.fit_transform(dfc['ord_2'])
-dfc
-```
-![image](https://github.com/Prasannalakshmiganesan/EXNO-3-DS/assets/118610231/2249ccf3-4a16-462b-b745-677312c7fd42)
-
-
-
-```python
-from sklearn.preprocessing import OneHotEncoder
-ohe=OneHotEncoder(sparse=False)
-df2=df.copy()
-enc=pd.DataFrame(ohe.fit_transform(df2[["nom_0"]]))
-```
-![image](https://github.com/Prasannalakshmiganesan/EXNO-3-DS/assets/118610231/d2714505-ceae-48c6-b428-fc421aaa735d)
-
-
-```python
-df2=pd.concat([df2,enc],axis=1)
-df2
-```
-![image](https://github.com/Prasannalakshmiganesan/EXNO-3-DS/assets/118610231/b4b4c5b2-9bc8-4f41-8649-096999696847)
-
-```python
-pd.get_dummies(df2,columns=["nom_0"])
-```
-![image](https://github.com/Prasannalakshmiganesan/EXNO-3-DS/assets/118610231/e56e11b0-9489-41a5-973c-e32fca8f9840)
-
-
-
-```python
-pip install --upgrade category_encoders
-```
-![image](https://github.com/Prasannalakshmiganesan/EXNO-3-DS/assets/118610231/0711d42f-4456-4222-8334-f183bc7c2385)
-
-
-
-```python
-from category_encoders import BinaryEncoder
-df=pd.read_csv("/content/data.csv")
-df
-```
-![image](https://github.com/Prasannalakshmiganesan/EXNO-3-DS/assets/118610231/3d2f8b4c-0ffc-4754-8c1b-ad637c727c9b)
-
-
-
-```python
-be=BinaryEncoder()
-nd=be.fit_transform(df['Ord_2'])
-dfb=pd.concat([df,nd],axis=1)
-dfb1=df.copy()
-dfb
-```
-![image](https://github.com/Prasannalakshmiganesan/EXNO-3-DS/assets/118610231/781ddd71-1fc6-499b-9234-b83778405580)
-
-
-```python
-from category_encoders import TargetEncoder
-te=TargetEncoder()
-CC=df.copy()
-new=te.fit_transform(X=CC["City"],y=CC["Target"])
-CC=pd.concat([CC,new],axis=1)
-CC
-```
-![image](https://github.com/Prasannalakshmiganesan/EXNO-3-DS/assets/118610231/6f1877a4-9ba9-45d6-8df2-38fdc103a0ef)
-
-
-
-```python
-import pandas as pd
-from scipy import stats
-import numpy as np
-df=pd.read_csv("/content/Data_to_Transform.csv")
-df
-```
-![image](https://github.com/Prasannalakshmiganesan/EXNO-3-DS/assets/118610231/63cbb12a-e9eb-447e-855a-e56c706bbfa9)
-
-
-
-```python
-df.skew()
-```
-![image](https://github.com/Prasannalakshmiganesan/EXNO-3-DS/assets/118610231/3d04bbce-76dc-4571-8c8d-5aad234c1766)
-
-
-
-```python
-np.log(df["Highly Positive Skew"])
-```
-![image](https://github.com/Prasannalakshmiganesan/EXNO-3-DS/assets/118610231/7247340c-6488-4b75-9deb-0ad3f10e03fd)
-
-
-
-```python
-np.reciprocal(df["Moderate Positive Skew"])
-```
-![image](https://github.com/Prasannalakshmiganesan/EXNO-3-DS/assets/118610231/71ae0399-a828-406a-93a6-0e36cc31e249)
-
-
-```python
-np.sqrt(df["Highly Positive Skew"])
-```
-![image](https://github.com/Prasannalakshmiganesan/EXNO-3-DS/assets/118610231/9b500fd0-9b55-4397-b1e8-364652aca983)
-
-
-```python
-np.square(df["Highly Positive Skew"])
-```
-
-![image](https://github.com/Prasannalakshmiganesan/EXNO-3-DS/assets/118610231/d243323b-c97e-4c55-a41f-f76d176e6461)
-
-
-```python
-df["Highly Positive Skew_boxcox"], parameters=stats.boxcox(df["Highly Positive Skew"])
-df
-```
-![image](https://github.com/Prasannalakshmiganesan/EXNO-3-DS/assets/118610231/758eaaba-b780-4fee-8487-d8242a9d6148)
-
-
-```python
-df["Moderate Negative Skew_yeojohnson"],parameters=stats.yeojohnson(df["Moderate Negative Skew"])
-```
-![image](https://github.com/Prasannalakshmiganesan/EXNO-3-DS/assets/118610231/4945b8c6-e27d-4526-9032-0c0aeb9ab576)
-
-
-```python
-import seaborn as sns
-import statsmodels.api as sm
-import matplotlib.pyplot as plt
-sm.qqplot(df["Moderate Negative Skew"],line='45')
-plt.show()
-```
-![image](https://github.com/Prasannalakshmiganesan/EXNO-3-DS/assets/118610231/52a7553c-c1bd-4489-a0cb-b13a27684c23)
-
-
-
-```python
-sm.qqplot(np.reciprocal(df["Moderate Negative Skew_1"]),line='45')
-plt.show()
-```
-![image](https://github.com/Prasannalakshmiganesan/EXNO-3-DS/assets/118610231/3688ed78-4920-4cd4-9e33-4420fc790b8d)
-
-
-
-```python
-from sklearn.preprocessing import QuantileTransformer
-qt=QuantileTransformer(output_distribution='normal',n_quantiles=891)
-
-df["Moderate Negative Skew"]=qt.fit_transform(df[["Moderate Negative Skew"]])
-
-sm.qqplot(df["Moderate Negative Skew"],line='45')
-plt.show()
-```
-![image](https://github.com/Prasannalakshmiganesan/EXNO-3-DS/assets/118610231/9ef5152c-d766-48e1-857c-a7dbfde4e648)
-
-
-
-```python
-df["Highly Negative Skew_1"]=qt.fit_transform(df[["Highly Negative Skew"]])
-sm.qqplot(df["Highly Negative Skew"],line='45')
-plt.show()
-```
-
-![image](https://github.com/Prasannalakshmiganesan/EXNO-3-DS/assets/118610231/fde4b296-88ec-46ad-b6f3-2cf2b64a15f2)
-
-
-```python
-sm.qqplot(df["Highly Negative Skew_1"],line='45')
-plt.show()
-```
-
-![image](https://github.com/Prasannalakshmiganesan/EXNO-3-DS/assets/118610231/57bae70b-8ee0-4ab1-86bf-733d2597089d)
-
-```python
-sm.qqplot(np.reciprocal(df["Moderate Negative Skew"]),line='45')
-plt.show()
-```
-![image](https://github.com/Prasannalakshmiganesan/EXNO-3-DS/assets/118610231/3987a28b-3816-41b2-9a9d-6a1cedf8382e)
-
-
-
-
-## RESULT:
-Thus the given data, Feature Encoding, Transformation process and save the data to a file was performed successfully.
+![image](https://github.com/1808charitha/EXNO-4-DS/assets/132996838/66bf8346-99be-479b-86cf-d8f197bb6dc1)
+
+![image](https://github.com/1808charitha/EXNO-4-DS/assets/132996838/c662fe28-32c8-4178-8cc6-ed8997f036b0)
+
+![image](https://github.com/1808charitha/EXNO-4-DS/assets/132996838/69a21166-1be8-4779-8e21-b653d7c4f52e)
+![image](https://github.com/1808charitha/EXNO-4-DS/assets/132996838/afd7099e-ca59-499e-be65-9664fa5d8b86)
+![image](https://github.com/1808charitha/EXNO-4-DS/assets/132996838/c49edb65-7480-45e8-b845-30b33914495a)
+![image](https://github.com/1808charitha/EXNO-4-DS/assets/132996838/026dcf32-38f5-46e1-8063-69966041ef82)
+![image](https://github.com/1808charitha/EXNO-4-DS/assets/132996838/8541132f-d413-4400-8428-4c7fc7b9a3c4)
+![image](https://github.com/1808charitha/EXNO-4-DS/assets/132996838/aeeb6460-5eea-45cd-bb57-a1ec982b5441)
+![image](https://github.com/1808charitha/EXNO-4-DS/assets/132996838/8245c4df-0907-4562-bcf3-918640961833)
+![image](https://github.com/1808charitha/EXNO-4-DS/assets/132996838/b6e17ffb-d5bd-47e3-8fa1-c7205d6b956b)
+![image](https://github.com/1808charitha/EXNO-4-DS/assets/132996838/c8852224-aa56-4e4a-873e-3ffb02773b78)
+![image](https://github.com/1808charitha/EXNO-4-DS/assets/132996838/b7e15449-0e97-405d-8f8e-cb37b2f8c9e6)
+![image](https://github.com/1808charitha/EXNO-4-DS/assets/132996838/27c4f53d-b4c0-4eed-9eb6-dd31b238f5a1)
+![image](https://github.com/1808charitha/EXNO-4-DS/assets/132996838/3ba91785-882a-45dd-8563-e6595828fdcd)
+![image](https://github.com/1808charitha/EXNO-4-DS/assets/132996838/1cf8d8a7-9eed-4f5b-8144-54d67bc1fa74)
+![image](https://github.com/1808charitha/EXNO-4-DS/assets/132996838/9f0ccd4d-feef-4051-ba8b-f5f98f76c28d)
+![image](https://github.com/1808charitha/EXNO-4-DS/assets/132996838/c3ead24a-040e-4d87-93fb-3a7f43ebd06d)
+![image](https://github.com/1808charitha/EXNO-4-DS/assets/132996838/fcec1c84-36e0-4284-9121-ddf50c83ffb5)
+![image](https://github.com/1808charitha/EXNO-4-DS/assets/132996838/54a2df43-7590-4c88-9590-1a9f1c3c9838)
+![image](https://github.com/1808charitha/EXNO-4-DS/assets/132996838/96cb2202-651c-40b6-8fbd-d10d54db4eb3)
+![image](https://github.com/1808charitha/EXNO-4-DS/assets/132996838/c386bbc2-bf1b-4472-9cc4-03abfac6cb2b)
+![image](https://github.com/1808charitha/EXNO-4-DS/assets/132996838/89adf369-5755-4b1c-bc52-f0a1cfd7843b)
+![image](https://github.com/1808charitha/EXNO-4-DS/assets/132996838/4f7c73a0-6f22-4b99-b843-bfd05ae3f65c)
+![image](https://github.com/1808charitha/EXNO-4-DS/assets/132996838/f44462ea-7374-4654-8ff2-6d39cdb497a3)
+![image](https://github.com/1808charitha/EXNO-4-DS/assets/132996838/801ebc90-3b75-45e6-8ca4-830199104b2d)
+# RESULT:
+Thus feature scaling and selection is performed.
